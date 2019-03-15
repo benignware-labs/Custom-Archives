@@ -7,7 +7,7 @@
  * Author: Daniel James
  * Author URI: https://danieltj.uk/
  * Text Domain: custom-archives
- * Version: 2.1
+ * Version: 2.2
  */
 
 /**
@@ -40,7 +40,7 @@ class Custom_Archives {
 	 * 
 	 * @var string
 	 */
-	protected static $version = '2.1';
+	protected static $version = '2.2';
 
 	/**
 	 * Puts the archive into WordPress.
