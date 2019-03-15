@@ -294,26 +294,6 @@ class Custom_Archives {
 		// Add the setting section
 		add_settings_section( 'custom_archives_group', false, false, 'custom_archives_section' );
 
-		// Get the post loop fix value
-		$value = get_option( 'archive_allow_empty_loops', false );
-
-		// Add the post loop fix setting
-		add_settings_field(
-			'archive_allow_empty_loops',
-			esc_html__( 'Post Loops', 'custom-archives' ),
-			array( __CLASS__, 'print_check_setting' ),
-			'custom_archives_section',
-			'custom_archives_group',
-			array( 'name' => 'archive_allow_empty_loops', 'value' => $value, 'description' => esc_html__( 'Bypass empty post loops on custom archive pages.', 'custom-archives' ) )
-		);
-
-		// Register the post loop setting
-		register_setting(
-			'custom_archives_fields',
-			'archive_allow_empty_loops',
-			'esc_attr'
-		);
-
 		foreach ( $types as $type ) {
 
 			if ( ! $type->has_archive ) {
@@ -342,30 +322,6 @@ class Custom_Archives {
 			);
 
 		}
-
-	}
-
-	/**
-	 * Print the checkbox setting UI.
-	 * 
-	 * @param array $args The settings field arguments.
-	 * 
-	 * @return string
-	 */
-	public static function print_check_setting( $args ) {
-
-		?>
-
-			<fieldset>
-				<label for="<?php echo esc_attr( $args['name'] ); ?>">
-					<input type="checkbox" name="<?php echo esc_attr( $args['name'] ); ?>" id="<?php echo esc_attr( $args['name'] ); ?>"<?php if ( 'on' == $args['value'] ) : ?> checked="checked"<?php endif; ?> />
-					<?php if ( isset( $args[ 'description' ] ) ) : ?>
-						<?php echo $args[ 'description' ]; ?>
-					<?php endif; ?>
-				</label>
-			</fieldset>
-
-		<?php
 
 	}
 
@@ -697,12 +653,23 @@ class Custom_Archives {
 				$wp_query->query_vars['p'] = $post_id;
 				$wp_query->query_vars['page_id'] = $post_id;
 
-				// Check if the override post loops setting is on
-				if ( 'on' == get_option( 'archive_allow_empty_loops', false ) ) {
+				// Get the current post count
+				$post_count = ( 1 <= $wp_query->post_count ) ? $wp_query->post_count : 1;
 
-					$wp_query->post_count = 1;
-
-				}
+				/**
+				 * Filter the current query post count.
+				 * 
+				 * The post count for the query must be 1 or more as when the
+				 * `have_posts` function is run, if there are no published posts
+				 * for this post type, (depending on the theme template used)
+				 * nothing will be shown.
+				 * 
+				 * @since 2.2
+				 * 
+				 * @param int    $post_count The default number of posts.
+				 * @param object $query      The current WP Query object.
+				 */
+				$wp_query->post_count = apply_filters( 'custom_archive_query_post_count', $post_count, $query );
 
 				// Get the template directory
 				$directory = get_template_directory();
