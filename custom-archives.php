@@ -667,9 +667,10 @@ class Custom_Archives {
 				 * @since 2.2
 				 * 
 				 * @param int    $post_count The default number of posts.
+				 * @param string $post_type  The archive page post type.
 				 * @param object $query      The current WP Query object.
 				 */
-				$wp_query->post_count = apply_filters( 'custom_archive_query_post_count', $post_count, $query );
+				$wp_query->post_count = apply_filters( 'custom_archive_query_post_count', $post_count, $post_type, $query );
 
 				// Get the template directory
 				$directory = get_template_directory();
