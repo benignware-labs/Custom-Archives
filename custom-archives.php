@@ -99,6 +99,8 @@ class Custom_Archives {
 		/**
 		 * Filter the array of post types.
 		 * 
+		 * @since 1.0
+		 * 
 		 * @param array $post_types The array of post types.
 		 * 
 		 * @return array $post_types The filtered post types.
@@ -145,6 +147,8 @@ class Custom_Archives {
 
 		/**
 		 * Filter the array of custom archives.
+		 * 
+		 * @since 1.0
 		 * 
 		 * @param array $pages The array of custom archive ids.
 		 * 
