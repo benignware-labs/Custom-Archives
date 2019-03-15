@@ -36,13 +36,6 @@ $Custom_Archives = new Custom_Archives;
 class Custom_Archives {
 
 	/**
-	 * The plugin version.
-	 * 
-	 * @var string
-	 */
-	protected static $version = '2.2';
-
-	/**
 	 * Puts the archive into WordPress.
 	 * 
 	 * @return void
