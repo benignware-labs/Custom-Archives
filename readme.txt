@@ -1,6 +1,6 @@
 === Custom Archives ===
 Contributors: danieltj
-Tags: page, archive, custom, template, post type
+Tags: custom, archive, page, template, post type
 Requires at least: 4.6
 Tested up to: 5.1
 Stable tag: 3.0
@@ -59,4 +59,4 @@ No, this is not possible as the user is redirected to the original archive page 
 
 == Changelog ==
 
-Refer to the [GitHub repository](https://github.com/danieltj27/Custom-Archives) for more information on version history and updates.
+Refer to the [GitHub repository](https://github.com/danieltj27/Custom-Archives) for information on version history.
