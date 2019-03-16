@@ -60,7 +60,7 @@ class Custom_Archives {
 	}
 
 	/**
-	 * Gets all available post types.
+	 * Gets all custom post types.
 	 * 
 	 * @return array $post_types An array of post types.
 	 */
@@ -171,9 +171,8 @@ class Custom_Archives {
 	/**
 	 * Get the archive page URL.
 	 * 
-	 * Returns the URL of the post archive page
-	 * based on the custom archive page id that
-	 * passed through the function.
+	 * Returns the URL of the post archive page based on the custom
+	 * archive page id that passed through the function.
 	 * 
 	 * @param int $page_id The page id to search.
 	 * 
@@ -232,7 +231,7 @@ class Custom_Archives {
 	}
 
 	/**
-	 * Print the admin plugin page HTML.
+	 * Print the plugin page HTML.
 	 * 
 	 * @return string
 	 */
@@ -268,8 +267,8 @@ class Custom_Archives {
 	/**
 	 * Register page archive settings.
 	 * 
-	 * Adds the post type archive page settings
-	 * to the Reading settings page.
+	 * Adds the post type archive page settings to the
+	 * Reading settings page.
 	 * 
 	 * @return void
 	 */
@@ -311,7 +310,7 @@ class Custom_Archives {
 	}
 
 	/**
-	 * Print the select setting UI.
+	 * Print the select setting element.
 	 * 
 	 * @param array $args The settings field arguments.
 	 * 
@@ -422,10 +421,9 @@ class Custom_Archives {
 	/**
 	 * Check custom archive page on update.
 	 * 
-	 * This function ensures that in the event of
-	 * a post having it's status changed to anything
-	 * other than `published`, it'll remove it as
-	 * a custom archive page.
+	 * This function ensures that in the event of a post having it's
+	 * status changed to anything other than `published`, it'll remove
+	 * it as a custom archive page.
 	 * 
 	 * @param string $new_status The new post status.
 	 * @param string $old_status The old post status.
@@ -452,8 +450,8 @@ class Custom_Archives {
 	/**
 	 * Remove custom archive option on delete.
 	 * 
-	 * Delete the saved value for a custom archive page
-	 * if that page gets deleted from the site.
+	 * Delete the saved value for a custom archive page if that
+	 * page gets deleted from the site.
 	 * 
 	 * @param int $post_id The deleted post id.
 	 * 
@@ -474,8 +472,8 @@ class Custom_Archives {
 	/**
 	 * Add an edit link to the Toolbar.
 	 * 
-	 * Adds an edit page link to the toolbar when viewing
-	 * an archive page that is using a custom archive.
+	 * Adds an edit page link to the toolbar when viewing an archive
+	 * page that is using a custom archive.
 	 * 
 	 * @param object $wp_admin_bar The toolbar links.
 	 * 
