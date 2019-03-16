@@ -6,13 +6,8 @@
 
 Thanks go to Human Made who released [Page for post type](https://github.com/humanmade/page-for-post-type/) which was used as inspiration for building this plugin.
 
-## Donate
-
-In case you really like using this plugin and would like to support me, please consider [donating via PayPal](https://www.paypal.me/dtj27). Any amount is hugely appreciated and allows me to develop the plugin further. Thank you!
-
 ## Useful Links
 
 - [Download Plugin](https://wordpress.org/plugins/custom-archives/)
 - [Translation Plugin](https://translate.wordpress.org/projects/wp-plugins/custom-archives)
 - [GitHub Repository](https://github.com/danieltj27/Custom-Archives)
-- [Me](https://danieltj.uk/)
