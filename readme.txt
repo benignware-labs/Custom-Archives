@@ -7,7 +7,7 @@ Stable tag: 3.0
 License: GNU GPL v3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Select a page to be a custom archive for your post types.
+Select a page to be used as an archive page for custom post types.
 
 == Description ==
 
@@ -15,7 +15,7 @@ Custom Archives lets you set the page of your choice as the archive page to any 
 
 = Developers =
 
-There are lots of action and filter hooks available to extend the functionality of this plugin. If you'd like more information on how to use them, take a look at the plugin Wiki on the [GitHub repository](https://github.com/danieltj27/Custom-Archives/wiki).
+For information regarding the hooks and integrations in this plugin, refer to the wiki on the [GitHub repository](https://github.com/danieltj27/Custom-Archives/wiki).
 
 = Thank You =
 

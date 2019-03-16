@@ -1,6 +1,6 @@
 # Custom Archives
 
-[Custom Archives](https://wordpress.org/plugins/custom-archives/) lets you select a page to be used as a custom archive page for your custom psot types.
+[Custom Archives](https://wordpress.org/plugins/custom-archives/) lets you select a page to be used as an archive page for custom post types.
 
 ## Thank You
 
