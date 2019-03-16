@@ -497,7 +497,7 @@ class Custom_Archives {
 			// Get the edit page URL.
 			$edit_post_link = get_edit_post_link( $post->ID );
 
-			if ( current_user_can( 'edit_post', $post->ID ) ) {
+			if ( current_user_can( $post_type_object->cap->edit_post, $post->ID ) ) {
 
 				$wp_admin_bar->add_menu(
 					array(
