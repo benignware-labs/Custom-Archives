@@ -13,7 +13,6 @@ In case you really like using this plugin and would like to support me, please c
 ## Useful Links
 
 - [Download Plugin](https://wordpress.org/plugins/custom-archives/)
-- [Help with Translations](https://translate.wordpress.org/projects/wp-plugins/custom-archives)
+- [Translation Plugin](https://translate.wordpress.org/projects/wp-plugins/custom-archives)
 - [GitHub Repository](https://github.com/danieltj27/Custom-Archives)
 - [Me](https://danieltj.uk/)
-
