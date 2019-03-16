@@ -7,7 +7,7 @@
  * Author: Daniel James
  * Author URI: https://danieltj.uk/
  * Text Domain: custom-archives
- * Version: 2.2
+ * Version: 3.0
  */
 
 /**
