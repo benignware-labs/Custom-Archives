@@ -1,12 +1,11 @@
 === Custom Archives ===
 Contributors: danieltj
 Tags: page, archive, custom, template, post type
-Requires at least: 4.0
+Requires at least: 4.6
 Tested up to: 5.1
 Stable tag: 3.0
 License: GNU GPL v3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Donate link: https://www.paypal.me/dtj27
 
 Select a page to be a custom archive for your post types.
 

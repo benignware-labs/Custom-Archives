@@ -28,21 +28,22 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
+
 	die();
+
 }
 
-$Custom_Archives = new Custom_Archives;
+new Custom_Archives;
 
 class Custom_Archives {
 
 	/**
-	 * Puts the archive into WordPress.
+	 * Hook into WordPress.
 	 * 
 	 * @return void
 	 */
 	public function __construct() {
 
-		add_action( 'plugins_loaded', array( __CLASS__, 'load_text_domain' ), 10, 0 );
 		add_action( 'admin_menu', array( __CLASS__, 'add_admin_page' ), 10, 0 );
 		add_action( 'admin_init', array( __CLASS__, 'add_settings' ), 10, 0 );
 		add_action( 'template_redirect', array( __CLASS__, 'archive_redirect' ), 15, 0 );
@@ -50,7 +51,6 @@ class Custom_Archives {
 		add_action( 'deleted_post', array( __CLASS__, 'post_deleted' ), 20, 1 );
 		add_action( 'admin_bar_menu', array( __CLASS__, 'add_edit_link' ), 80, 1 );
 
-		add_filter( 'plugin_action_links', array( __CLASS__, 'add_donate_link' ), 10, 2 );
 		add_filter( 'display_post_states', array( __CLASS__, 'add_post_states' ), 20, 2 );
 		add_filter( 'document_title_parts', array( __CLASS__, 'rewrite_page_title' ), 15, 1 );
 		add_filter( 'template_include', array( __CLASS__, 'archive_template' ), 20, 1 );
@@ -60,24 +60,12 @@ class Custom_Archives {
 	}
 
 	/**
-	 * Load the plugin text domain.
-	 * 
-	 * @return void
-	 */
-	public static function load_text_domain() {
-
-		load_plugin_textdomain( 'custom-archives', false, untrailingslashit( dirname( __FILE__ ) ) . '/languages' );
-
-	}
-
-	/**
 	 * Gets all available post types.
 	 * 
 	 * @return array $post_types An array of post types.
 	 */
-	public static function get_post_types() {
+	public static function get_custom_post_types() {
 
-		// Get all custom types
 		$get_types = get_post_types(
 			array(
 				'public' => true,
@@ -91,7 +79,7 @@ class Custom_Archives {
 
 		foreach ( $get_types as $key => $value ) {
 
-			// Add the post type
+			// Add the post type.
 			$post_types[ $value->name ] = $value;
 
 		}
@@ -116,10 +104,9 @@ class Custom_Archives {
 	 * 
 	 * @return array $pages
 	 */
-	public static function get_archive_ids() {
+	public static function get_custom_archive_ids() {
 
-		// Get the post types
-		$types = self::get_post_types();
+		$types = self::get_custom_post_types();
 
 		$pages = array();
 
@@ -131,7 +118,7 @@ class Custom_Archives {
 
 			}
 
-			// Get the option for this post type
+			// Get the post type option.
 			$page_id = get_option( 'archive_page_' . $type->name, false );
 
 			if ( ! $page_id ) {
@@ -140,7 +127,6 @@ class Custom_Archives {
 
 			}
 
-			// Add the page id to the array
 			$pages[ $type->name ] = $page_id;
 
 		}
@@ -167,10 +153,9 @@ class Custom_Archives {
 	 */
 	public static function get_custom_archive_post_type( $page_id ) {
 
-		// Get the custom archive ids
-		$ids = self::get_archive_ids();
+		$ids = self::get_custom_archive_ids();
 
-		// Search the array
+		// Does the page ID exist?
 		$post_type = array_search( $page_id, $ids );
 
 		if ( ! $post_type ) {
@@ -194,20 +179,19 @@ class Custom_Archives {
 	 * 
 	 * @return string|boolean
 	 */
-	public static function get_archive_url( $page_id = 0 ) {
+	public static function get_custom_archive_url( $page_id = 0 ) {
 
-		// Get the types and ids
-		$types = self::get_post_types();
-		$ids = self::get_archive_ids();
+		$types = self::get_custom_post_types();
+		$ids = self::get_custom_archive_ids();
 
 		if ( in_array( $page_id, $ids ) ) {
 
-			// Get the post type this page is the archive for
+			// Does the page ID exist?
 			$archive = array_search( $page_id, $ids );
 
 			if ( false !== $archive ) {
 
-				// Get the archive URL
+				// Get the post type URL.
 				$url = get_post_type_archive_link( $types[ $archive ]->name );
 
 				/**
@@ -254,8 +238,7 @@ class Custom_Archives {
 	 */
 	public static function show_plugin_page() {
 
-		// Get the post types
-		$types = self::get_post_types();
+		$types = self::get_custom_post_types();
 
 		?>
 			<div class="wrap">
@@ -292,10 +275,8 @@ class Custom_Archives {
 	 */
 	public static function add_settings() {
 
-		// Get the post types
-		$types = self::get_post_types();
+		$types = self::get_custom_post_types();
 
-		// Add the setting section
 		add_settings_section( 'custom_archives_group', false, false, 'custom_archives_section' );
 
 		foreach ( $types as $type ) {
@@ -306,7 +287,7 @@ class Custom_Archives {
 
 			}
 
-			// Set the post type parameters
+			// Set the setting parameters.
 			$name = 'archive_page_' . $type->name;
 			$value = get_option( $name, false );
 
@@ -338,22 +319,22 @@ class Custom_Archives {
 	 */
 	public static function print_select_setting( $args ) {
 
-		// Get the home and blog pages from Settings > Reading
+		// Get the home & blog page reading options.
 		$home_page = get_option( 'page_on_front', false );
 		$blog_page = get_option( 'page_for_posts', false );
 
 		$pages = wp_dropdown_pages(
 			array(
-				'id' => esc_attr( 'select_' . $args['name'] ),
-				'name' => esc_attr( $args['name'] ),
-				'selected' => $args['value'],
+				'id' => esc_attr( 'select_' . $args[ 'name' ] ),
+				'name' => esc_attr( $args[ 'name' ] ),
+				'selected' => $args[ 'value' ],
 				'exclude' => implode( ',', array( $home_page, $blog_page ) ),
 				'show_option_none' => esc_html__( 'Default', 'custom-archives' ),
 				'echo' => false
 			)
 		);
 
-		// Print the drop down select or error
+		// Print options or the error message.
 		echo ( $pages ) ? $pages : '<p>' . esc_html__( 'No pages to select.', 'custom-archives' ) . '</p>';
 
 	}
@@ -367,13 +348,10 @@ class Custom_Archives {
 	 */
 	public static function verify_setting( $new_value ) {
 
-		// Force to int
 		$id = (int) $new_value;
 
-		// Find the post
 		$post = get_post( $id );
 
-		// Return default value if invalid
 		if ( ! $post || 'page' != $post->post_type ) {
 
 			return 0;
@@ -396,13 +374,11 @@ class Custom_Archives {
 
 		global $post;
 
-		// Get the custom archive ids
-		$ids = self::get_archive_ids();
+		$ids = self::get_custom_archive_ids();
 
 		if ( $post && isset( $post->ID ) && in_array( $post->ID, $ids ) ) {
 
-			// Get the custom archive url
-			$url = self::get_archive_url( $post->ID );
+			$url = self::get_custom_archive_url( $post->ID );
 
 			if ( false !== $url ) {
 
@@ -430,10 +406,9 @@ class Custom_Archives {
 				 */
 				$code = apply_filters( 'custom_archive_http_code', 301, $post->ID );
 
-				// Set a header response
+				// Set the HTTP header.
 				status_header( $code );
 
-				// Redirect to the archive page
 				wp_safe_redirect( $url, $code );
 
 				die();
@@ -462,7 +437,6 @@ class Custom_Archives {
 
 		if ( 'page' == $post->post_type && 'publish' !== $new_status ) {
 
-			// Get archive psot type
 			$post_type = self::get_custom_archive_post_type( $post->ID );
 
 			if ( $post_type ) {
@@ -487,7 +461,6 @@ class Custom_Archives {
 	 */
 	public static function post_deleted( $post_id ) {
 
-		// Get archive psot type
 		$post_type = self::get_custom_archive_post_type( $post_id );
 
 		if ( $post_type ) {
@@ -512,27 +485,22 @@ class Custom_Archives {
 
 		global $wp_query, $wp_the_query;
 
-		// Get the archive ids
-		$archive_ids = self::get_archive_ids();
+		$archive_ids = self::get_custom_archive_ids();
 
-		// Get the archive post type
-		$post_type = ( isset( $wp_query->query['post_type'] ) ) ? $wp_query->query['post_type'] : '';
+		// Get the archive page post type.
+		$post_type = ( isset( $wp_query->query[ 'post_type' ] ) ) ? $wp_query->query[ 'post_type' ] : '';
 
 		if ( ! is_admin() && true === $wp_query->is_archive && array_key_exists( $post_type, $archive_ids ) ) {
 
-			// Get the post object
-			$post = get_post( $archive_ids[ $wp_query->query['post_type'] ] );
+			$post = get_post( $archive_ids[ $wp_query->query[ 'post_type' ] ] );
 
-			// Get the post object
 			$post_type_object = get_post_type_object( $post->post_type );
 
-			// Get the edit link
+			// Get the edit page URL.
 			$edit_post_link = get_edit_post_link( $post->ID );
 
-			// Can we add an edit link for this user
 			if ( current_user_can( 'edit_post', $post->ID ) ) {
 
-				// Add the menu item
 				$wp_admin_bar->add_menu(
 					array(
 						'id' => 'edit',
@@ -557,18 +525,17 @@ class Custom_Archives {
 	 */
 	public static function add_post_states( $states, $post ) {
 
-		// Get the post types & ids
-		$types = self::get_post_types();
-		$ids = self::get_archive_ids();
+		$types = self::get_custom_post_types();
+		$ids = self::get_custom_archive_ids();
 
 		if ( 'page' === $post->post_type ) {
 
 			if ( in_array( $post->ID, $ids ) ) {
 
-				// Get the post type for this ID
+				// Does the page ID exist?
 				$archive = array_search( $post->ID, $ids );
 
-				// Add the post state
+				// Add the new post state.
 				$states[ 'archive_page_' . $post->post_type ] = sprintf( esc_html__( '%s Archive', 'custom-archives' ), $types[ $archive ]->labels->name );
 
 			}
@@ -592,22 +559,19 @@ class Custom_Archives {
 
 		if ( $wp_query->is_archive ) {
 
-			// Get the archive ids
-			$ids = self::get_archive_ids();
+			$ids = self::get_custom_archive_ids();
 
-			// Get the archive post type
-			$post_type = ( isset( $wp_query->query['post_type'] ) ) ? $wp_query->query['post_type'] : '';
+			// Get the archive page post type.
+			$post_type = ( isset( $wp_query->query[ 'post_type' ] ) ) ? $wp_query->query[ 'post_type' ] : '';
 
-			// Get the page id for the archive page
+			// Is the page a custom archive?
 			$post_id = ( isset( $ids[ $post_type ] ) ) ? $ids[ $post_type ] : 0;
 
 			if ( 0 !== $post_id ) {
 
-				// Get the post object
 				$post = get_post( $post_id );
 
-				// Set the page title
-				$title['title'] = $post->post_title;
+				$title[ 'title' ] = $post->post_title;
 
 			}
 
@@ -636,28 +600,26 @@ class Custom_Archives {
 
 		if ( $wp_query->is_archive ) {
 
-			// Get the archive ids
-			$ids = self::get_archive_ids();
+			$ids = self::get_custom_archive_ids();
 
-			// Get the archive post type
-			$post_type = ( isset( $wp_query->query['post_type'] ) ) ? $wp_query->query['post_type'] : '';
+			// Get the archive page post type.
+			$post_type = ( isset( $wp_query->query[ 'post_type' ] ) ) ? $wp_query->query[ 'post_type' ] : '';
 
-			// Get the page id for the archive page
+			// Is the page a custom archive?
 			$post_id = ( isset( $ids[ $post_type ] ) ) ? $ids[ $post_type ] : 0;
 
 			if ( 0 !== $post_id ) {
 
-				// Get the post object
 				$post = get_post( $post_id );
 
-				// Update the $wp_query data
+				// Update the query.
 				$wp_query->post = $post;
-				$wp_query->query_vars['archive_posts'] = $wp_query->posts;
+				$wp_query->query_vars[ 'archive_posts' ] = $wp_query->posts;
 				$wp_query->posts = array( $post );
-				$wp_query->query_vars['p'] = $post_id;
-				$wp_query->query_vars['page_id'] = $post_id;
+				$wp_query->query_vars[ 'p' ] = $post_id;
+				$wp_query->query_vars[ 'page_id' ] = $post_id;
 
-				// Get the current post count
+				// Get a post count of at least 1.
 				$post_count = ( 1 <= $wp_query->post_count ) ? $wp_query->post_count : 1;
 
 				/**
@@ -668,7 +630,7 @@ class Custom_Archives {
 				 * for this post type, (depending on the theme template used)
 				 * nothing will be shown.
 				 * 
-				 * @since 2.2
+				 * @since 3.0
 				 * 
 				 * @param int    $post_count The default number of posts.
 				 * @param string $post_type  The archive page post type.
@@ -676,23 +638,22 @@ class Custom_Archives {
 				 */
 				$wp_query->post_count = apply_filters( 'custom_archive_query_post_count', $post_count, $post_type, $query );
 
-				// Get the template directory
 				$directory = get_template_directory();
 
-				// Get the page template slug
+				// Get the page template file.
 				$template = get_post_meta( $post->ID, '_wp_page_template', true );
 
-				// When no template name given
+				// Fallback if no template given.
 				if ( '' == $template || false === $template || 'default' == $template ) {
 
 					$template = 'page.php';
 
-				}
+					// Does page.php not exist?
+					if ( ! file_exists( $directory . '/' . $template ) ) {
 
-				// Fallback if page.php doesn't exist either
-				if ( ! file_exists( $directory . '/' . $template ) ) {
+						$template = 'index.php';
 
-					$template = 'index.php';
+					}
 
 				}
 
@@ -707,7 +668,6 @@ class Custom_Archives {
 				 */
 				$template = apply_filters( 'pre_custom_archive_template', $template, $post_id, $post_type );
 
-				// Create the full template path
 				$template = $directory . '/' . $template;
 
 			}
@@ -744,7 +704,7 @@ class Custom_Archives {
 				if ( $page ) {
 
 					// Set the new document title.
-					$title = sprintf( __( '%s - %s', 'custom-archives' ), $page->post_title, get_bloginfo( 'name' ) );
+					$title = sprintf( _x( '%s - %s', 'The page title and site name.', 'custom-archives' ), $page->post_title, get_bloginfo( 'name' ) );
 
 					/**
 					 * Filter the custom archive document title.
@@ -782,10 +742,9 @@ class Custom_Archives {
 
 		if ( 'page' == $post->post_type ) {
 
-			if ( in_array( $post->ID, self::get_archive_ids() ) ) {
+			if ( in_array( $post->ID, self::get_custom_archive_ids() ) ) {
 
-				// Get the custom archive url
-				$url = self::get_archive_url( $post->ID );
+				$url = self::get_custom_archive_url( $post->ID );
 
 				if ( false !== $url ) {
 
@@ -802,30 +761,4 @@ class Custom_Archives {
 
 	}
 
-	/**
-	 * Adds a donate link to the plugins table.
-	 * 
-	 * @param array  $links A list of plugin links
-	 * @param string $file  The current plugin file.
-	 * 
-	 * @return array $links
-	 */
-	public static function add_donate_link( $links, $file ) {
-
-		// Check if this is the current plugin
-		if ( 'custom-archives/custom-archives.php' == $file ) {
-
-			// Create the donate link
-			$donate_link = '<a href="https://www.paypal.me/dtj27" target="_blank">' . esc_html__( 'Donate', 'custom-archives' ) . '</a>';
-
-			// Add the link to the array
-			array_unshift( $links, $donate_link );
-
-		}
-
-		return $links;
-
-	}
-
 }
-
