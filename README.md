@@ -9,5 +9,5 @@ Thanks go to Human Made who released [Page for post type](https://github.com/hum
 ## Useful Links
 
 - [Download Plugin](https://wordpress.org/plugins/custom-archives/)
-- [Translation Plugin](https://translate.wordpress.org/projects/wp-plugins/custom-archives)
+- [Translate Plugin](https://translate.wordpress.org/projects/wp-plugins/custom-archives)
 - [GitHub Repository](https://github.com/danieltj27/Custom-Archives)
