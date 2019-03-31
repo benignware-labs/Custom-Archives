@@ -4,7 +4,7 @@
  * Plugin Name: Custom Archives
  * Plugin URI: https://wordpress.org/plugins/custom-archives/
  * Description: Select a page to be a custom archive for your post types.
- * Version: 3.0
+ * Version: 3.0.1
  * Author: Daniel James
  * Author URI: https://danieltj.uk/
  * Text Domain: custom-archives
@@ -618,7 +618,7 @@ class Custom_Archives {
 				$wp_query->query_vars[ 'page_id' ] = $post_id;
 
 				// Get a post count of at least 1.
-				$post_count = ( 1 <= $wp_query->post_count ) ? $wp_query->post_count : 1;
+				$post_count = ( 1 <= count( $wp_query->post_count ) ) ? count( $wp_query->post_count ) : 1;
 
 				/**
 				 * Filter the current query post count.
@@ -629,12 +629,13 @@ class Custom_Archives {
 				 * nothing will be shown.
 				 * 
 				 * @since 3.0
+				 * @since 3.0.1 Fix undefined `$query` variable warning.
 				 * 
 				 * @param int    $post_count The default number of posts.
 				 * @param string $post_type  The archive page post type.
-				 * @param object $query      The current WP Query object.
+				 * @param object $wp_query   The current WP Query object.
 				 */
-				$wp_query->post_count = apply_filters( 'custom_archive_query_post_count', $post_count, $post_type, $query );
+				$wp_query->post_count = apply_filters( 'custom_archive_query_post_count', $post_count, $post_type, $wp_query );
 
 				$directory = get_template_directory();
 
