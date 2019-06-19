@@ -4,7 +4,7 @@
  * Plugin Name: Custom Archives
  * Plugin URI: https://wordpress.org/plugins/custom-archives/
  * Description: Select a page to be a custom archive for your post types.
- * Version: 3.0.2
+ * Version: v3.0.3-beta.1
  * Author: Daniel James
  * Author URI: https://danieltj.uk/
  * Text Domain: custom-archives
@@ -12,12 +12,12 @@
 
 /**
  * (c) Copyright 2019, Daniel James
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -39,7 +39,7 @@ class Custom_Archives {
 
 	/**
 	 * Hook into WordPress.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function __construct() {
@@ -61,7 +61,7 @@ class Custom_Archives {
 
 	/**
 	 * Gets all custom post types.
-	 * 
+	 *
 	 * @return array $post_types An array of post types.
 	 */
 	public static function get_custom_post_types() {
@@ -86,11 +86,11 @@ class Custom_Archives {
 
 		/**
 		 * Filter the array of post types.
-		 * 
+		 *
 		 * @since 1.0
-		 * 
+		 *
 		 * @param array $post_types The array of post types.
-		 * 
+		 *
 		 * @return array $post_types The filtered post types.
 		 */
 		$post_types = apply_filters( 'archivable_post_types', $post_types );
@@ -101,7 +101,7 @@ class Custom_Archives {
 
 	/**
 	 * Get the custom archive page IDs.
-	 * 
+	 *
 	 * @return array $pages
 	 */
 	public static function get_custom_archive_ids() {
@@ -133,11 +133,11 @@ class Custom_Archives {
 
 		/**
 		 * Filter the array of custom archives.
-		 * 
+		 *
 		 * @since 1.0
-		 * 
+		 *
 		 * @param array $pages The array of custom archive ids.
-		 * 
+		 *
 		 * @return array $pages The filtered custom archive ids.
 		 */
 		return apply_filters( 'custom_archive_page_ids', $pages );
@@ -146,9 +146,9 @@ class Custom_Archives {
 
 	/**
 	 * Get the custom archive post type.
-	 * 
+	 *
 	 * @param int $page_id The page id to search.
-	 * 
+	 *
 	 * @return string|boolean
 	 */
 	public static function get_custom_archive_post_type( $page_id ) {
@@ -170,12 +170,12 @@ class Custom_Archives {
 
 	/**
 	 * Get the archive page URL.
-	 * 
+	 *
 	 * Returns the URL of the post archive page based on the custom
 	 * archive page id that passed through the function.
-	 * 
+	 *
 	 * @param int $page_id The page id to search.
-	 * 
+	 *
 	 * @return string|boolean
 	 */
 	public static function get_custom_archive_url( $page_id = 0 ) {
@@ -195,11 +195,11 @@ class Custom_Archives {
 
 				/**
 				 * Filter the custom archive URL.
-				 * 
+				 *
 				 * @since 1.0
-				 * 
+				 *
 				 * @param string $url The custom archive URL.
-				 * 
+				 *
 				 * @return string $url The filtered custom archive URL.
 				 */
 				return apply_filters( 'custom_archive_url', $url );
@@ -214,7 +214,7 @@ class Custom_Archives {
 
 	/**
 	 * Add the plugin admin page.
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function add_admin_page() {
@@ -232,7 +232,7 @@ class Custom_Archives {
 
 	/**
 	 * Print the plugin page HTML.
-	 * 
+	 *
 	 * @return string
 	 */
 	public static function show_plugin_page() {
@@ -266,10 +266,10 @@ class Custom_Archives {
 
 	/**
 	 * Register page archive settings.
-	 * 
+	 *
 	 * Adds the post type archive page settings to the
 	 * Reading settings page.
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function add_settings() {
@@ -311,9 +311,9 @@ class Custom_Archives {
 
 	/**
 	 * Print the select setting element.
-	 * 
+	 *
 	 * @param array $args The settings field arguments.
-	 * 
+	 *
 	 * @return string
 	 */
 	public static function print_select_setting( $args ) {
@@ -340,9 +340,9 @@ class Custom_Archives {
 
 	/**
 	 * Verify the archive settings value.
-	 * 
+	 *
 	 * @param int $new_value The new settings value.
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function verify_setting( $new_value ) {
@@ -363,10 +363,10 @@ class Custom_Archives {
 
 	/**
 	 * Redirect to the archive page.
-	 * 
+	 *
 	 * When the custom archive page is requested, redirect to
 	 * the real archive page so we can filter it properly.
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function archive_redirect() {
@@ -383,9 +383,9 @@ class Custom_Archives {
 
 				/**
 				 * Fires before redirecting to the custom archive.
-				 * 
+				 *
 				 * @since 1.0
-				 * 
+				 *
 				 * @param object $post The custom archive page object.
 				 * @param string $url  The URL to redirect to.
 				 */
@@ -393,13 +393,13 @@ class Custom_Archives {
 
 				/**
 				 * Filter the status header for the redirect.
-				 * 
+				 *
 				 * Allow filtering of the HTTP status header code
 				 * in cases where redirects may require a code other
 				 * than the default 302 response.
-				 * 
+				 *
 				 * @since 1.3
-				 * 
+				 *
 				 * @param int           The default status header code.
 				 * @param int $post->ID The current archive page ID.
 				 */
@@ -420,15 +420,15 @@ class Custom_Archives {
 
 	/**
 	 * Check custom archive page on update.
-	 * 
+	 *
 	 * This function ensures that in the event of a post having it's
 	 * status changed to anything other than `published`, it'll remove
 	 * it as a custom archive page.
-	 * 
+	 *
 	 * @param string $new_status The new post status.
 	 * @param string $old_status The old post status.
 	 * @param object $post       The current post object.
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function post_status_updated( $new_status, $old_status, $post ) {
@@ -449,12 +449,12 @@ class Custom_Archives {
 
 	/**
 	 * Remove custom archive option on delete.
-	 * 
+	 *
 	 * Delete the saved value for a custom archive page if that
 	 * page gets deleted from the site.
-	 * 
+	 *
 	 * @param int $post_id The deleted post id.
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function post_deleted( $post_id ) {
@@ -471,12 +471,12 @@ class Custom_Archives {
 
 	/**
 	 * Add an edit link to the Toolbar.
-	 * 
+	 *
 	 * Adds an edit page link to the toolbar when viewing an archive
 	 * page that is using a custom archive.
-	 * 
+	 *
 	 * @param object $wp_admin_bar The toolbar links.
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function add_edit_link( $wp_admin_bar ) {
@@ -515,10 +515,10 @@ class Custom_Archives {
 
 	/**
 	 * Add post states to custom archives.
-	 * 
+	 *
 	 * @param array  $states The collection of post states.
 	 * @param object $post   The current post object.
-	 * 
+	 *
 	 * @return array $states
 	 */
 	public static function add_post_states( $states, $post ) {
@@ -546,9 +546,9 @@ class Custom_Archives {
 
 	/**
 	 * Filter the custom archive page title.
-	 * 
+	 *
 	 * @param array $title An array of title parts.
-	 * 
+	 *
 	 * @return string $title
 	 */
 	public static function rewrite_page_title( $title ) {
@@ -582,14 +582,14 @@ class Custom_Archives {
 	/**
 	 * Include the template for the selected page
 	 * for this custom archive.
-	 * 
+	 *
 	 * Whilst it can be tricky in cases where a theme might not contain
 	 * the default templates, this switches out the archive page template
 	 * for the selected page template and gracefully degrades until a
 	 * suitable one is found.
-	 * 
+	 *
 	 * @param string $template The template name.
-	 * 
+	 *
 	 * @return string $template
 	 */
 	public static function archive_template( $template ) {
@@ -622,20 +622,21 @@ class Custom_Archives {
 
 				/**
 				 * Filter the current query post count.
-				 * 
+				 *
 				 * The post count for the query must be 1 or more as when the
 				 * `have_posts` function is run, if there are no published posts
 				 * for this post type, (depending on the theme template used)
 				 * nothing will be shown.
-				 * 
+				 *
 				 * @since 3.0
 				 * @since 3.0.1 Fix undefined `$query` variable warning.
-				 * 
+				 *
 				 * @param int    $post_count The default number of posts.
 				 * @param string $post_type  The archive page post type.
 				 * @param object $wp_query   The current WP Query object.
 				 */
 				$wp_query->post_count = apply_filters( 'custom_archive_query_post_count', $post_count, $post_type, $wp_query );
+
 
 				$directory = get_template_directory();
 
@@ -645,7 +646,13 @@ class Custom_Archives {
 				// Fallback if no template given.
 				if ( '' == $template || false === $template || 'default' == $template ) {
 
-					$template = 'page.php';
+					$template = locate_template(array(
+						'page.php',
+						sprintf('%s/page-%s.php', $post_type)
+					));
+
+					echo $template;
+					exit;
 
 					// Does page.php not exist?
 					if ( ! file_exists( $directory . '/' . $template ) ) {
@@ -658,9 +665,9 @@ class Custom_Archives {
 
 				/**
 				 * Filter the page template for this custom archive.
-				 * 
+				 *
 				 * @since 1.1
-				 * 
+				 *
 				 * @param string $template  The selected page template.
 				 * @param int    $post_id   The pages post id.
 				 * @param string $post_type The post type for the archive page.
@@ -679,9 +686,9 @@ class Custom_Archives {
 
 	/**
 	 * Rewrite the document title.
-	 * 
+	 *
 	 * @since string $title The document title.
-	 * 
+	 *
 	 * @return string $title
 	 */
 	public static function rewrite_document_title( $title ) {
@@ -707,9 +714,9 @@ class Custom_Archives {
 
 					/**
 					 * Filter the custom archive document title.
-					 * 
+					 *
 					 * @since 2.0
-					 * 
+					 *
 					 * @param string $title     The rewritten document title.
 					 * @param object $page      The custom archive page.
 					 * @param string $post_type The post type for this archive.
@@ -728,13 +735,13 @@ class Custom_Archives {
 
 	/**
 	 * Rewrite the edit permalink HTML.
-	 * 
+	 *
 	 * @param string $return    The HTML markup.
 	 * @param int    $post_id   The current post id.
 	 * @param string $new_title New sample permalink title.
 	 * @param string $new_slug  New sample permalink slug.
 	 * @param object $post      The current post object.
-	 * 
+	 *
 	 * @return string $return
 	 */
 	public static function rewrite_edit_permalink( $return, $post_id, $new_title, $new_slug, $post ) {
