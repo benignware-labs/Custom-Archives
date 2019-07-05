@@ -4,7 +4,7 @@
  * Plugin Name: Custom Archives
  * Plugin URI: https://wordpress.org/plugins/custom-archives/
  * Description: Select a page to be a custom archive for your post types.
- * Version: v3.0.3-beta.1
+ * Version: v3.0.2-benignware.2
  * Author: Daniel James
  * Author URI: https://danieltj.uk/
  * Text Domain: custom-archives
@@ -637,30 +637,22 @@ class Custom_Archives {
 				 */
 				$wp_query->post_count = apply_filters( 'custom_archive_query_post_count', $post_count, $post_type, $wp_query );
 
-
-				$directory = get_template_directory();
-
 				// Get the page template file.
 				$template = get_post_meta( $post->ID, '_wp_page_template', true );
 
 				// Fallback if no template given.
 				if ( '' == $template || false === $template || 'default' == $template ) {
 
-					$template = locate_template(array(
+					$template = locate_template(array_map(function($template) use ($post_type) {
+						return sprintf($template, $post_type);
+					}, array(
+						'page-archive-%s.php',
 						'page.php',
-						sprintf('%s/page-%s.php', $post_type)
-					));
+						'index.php'
+					)));
 
-					echo $template;
-					exit;
-
-					// Does page.php not exist?
-					if ( ! file_exists( $directory . '/' . $template ) ) {
-
-						$template = 'index.php';
-
-					}
-
+					$directory = dirname($template);
+					$template = basename($template);
 				}
 
 				/**
@@ -672,9 +664,9 @@ class Custom_Archives {
 				 * @param int    $post_id   The pages post id.
 				 * @param string $post_type The post type for the archive page.
 				 */
-				$template = apply_filters( 'pre_custom_archive_template', $template, $post_id, $post_type );
+				$filtered_template = apply_filters( 'pre_custom_archive_template', $template, $post_id, $post_type );
 
-				$template = $directory . '/' . $template;
+				$template = $custom_template !== $template ? locate_template($filtered_template) : $directory . '/' . $template;
 
 			}
 
