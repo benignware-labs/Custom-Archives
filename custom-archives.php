@@ -4,7 +4,7 @@
  * Plugin Name: Custom Archives
  * Plugin URI: https://wordpress.org/plugins/custom-archives/
  * Description: Select a page to be a custom archive for your post types.
- * Version: v3.0.2-benignware.2
+ * Version: v3.0.3-beta.2
  * Author: Daniel James
  * Author URI: https://danieltj.uk/
  * Text Domain: custom-archives
